@@ -12,7 +12,7 @@ h1 {
     text-align: center;
 }
 
-.gameboard {
+#gameboard {
     border: solid black 1px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -20,11 +20,14 @@ h1 {
     background-color: black;
 }
 
-.gameboard > div {
+.cell {
     height: var(--size);
     width: var(--size);
     /* border: solid red 1px; */
     background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .cell:hover {
