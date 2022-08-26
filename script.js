@@ -6,11 +6,41 @@ const game = (() => {
     // let row3 = [7, 8, 9];
     // const gameboard = [row1, row2, row3];
     const gameboard = ['','','','','','','','',''];
+    let moveCounter = 0;
+
+    const checkWinCondition = () => {
+        ++moveCounter;
+        console.log(moveCounter);
+        if (moveCounter >= 5){
+            if (
+                ((gameboard[0]==gameboard[1]) && (gameboard[1]==gameboard[2]) && (gameboard[0] != '')) ||
+                ((gameboard[3]==gameboard[4]) && (gameboard[4]==gameboard[5]) && (gameboard[3] != '')) ||
+                ((gameboard[6]==gameboard[7]) && (gameboard[7]==gameboard[8]) && (gameboard[6] != ''))) {
+                    console.log('game over horizontal')
+            } else if (
+                ((gameboard[0]==gameboard[3]) && (gameboard[3]==gameboard[6]) && (gameboard[0] != '')) ||
+                ((gameboard[1]==gameboard[4]) && (gameboard[4]==gameboard[7]) && (gameboard[1] != '')) ||
+                ((gameboard[2]==gameboard[5]) && (gameboard[5]==gameboard[8]) && (gameboard[2] != ''))) {
+                    console.log('game over vertical')
+            } else if (
+                ((gameboard[0]==gameboard[4]) && (gameboard[4]==gameboard[8]) && (gameboard[4] != '')) ||
+                ((gameboard[2]==gameboard[4]) && (gameboard[4]==gameboard[6]) && (gameboard[4] != ''))) {
+                    console.log('game over diagonal')
+            } else if (
+                (gameboard[0] != '') && (gameboard[1] != '') && (gameboard[2] != '') &&
+                (gameboard[3] != '') && (gameboard[4] != '') && (gameboard[5] != '') &&
+                (gameboard[6] != '') && (gameboard[7] != '') && (gameboard[8] != '')) {
+                    console.log('game over TIE')
+            };
+        };
+    };
     
     return {
         gameboard,
         o,
         x,
+        moveCounter,
+        checkWinCondition,
     };
 })();
 
@@ -60,6 +90,7 @@ const displayController = (() => {
                 game.gameboard[cell.id - 1] = plTurn; // X or O
                 console.log(game.gameboard);
                 cell.innerText = game.gameboard[cell.id - 1];
+                game.checkWinCondition();
 
                 if (plTurn == player1) {
                     // cell.innerText = 'x'
