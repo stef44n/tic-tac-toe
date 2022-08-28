@@ -8,6 +8,10 @@ const game = (() => {
     const gameboard = ['','','','','','','','',''];
     let moveCounter = 0;
 
+    let p1 = 'Player 1';
+    let p2 = 'Player 2';
+    let gameTie = 'no'
+
     const checkWinCondition = () => {
         ++moveCounter;
         console.log(moveCounter);
@@ -130,6 +134,8 @@ const game = (() => {
                 (gameboard[3] != '') && (gameboard[4] != '') && (gameboard[5] != '') &&
                 (gameboard[6] != '') && (gameboard[7] != '') && (gameboard[8] != '')) {
                     console.log('game over TIE')
+                    displayController.gameOver = 'yes'
+                    game.gameTie = 'yes'
             };
         };
     };
@@ -140,6 +146,9 @@ const game = (() => {
         x,
         moveCounter,
         checkWinCondition,
+        p1,
+        p2,
+        gameTie,
     };
 })();
 
@@ -199,15 +208,63 @@ const displayController = (() => {
                         // console.log(plTurn)
                         plTurn = player2;
                         console.log(plTurn)
+                        nameDisplay1.textContent = `${game.p1}`
+                        nameDisplay2.textContent = `>> ${game.p2} <<`
+                        if (displayController.gameOver == 'yes' && game.gameTie == 'no') {
+                            console.log('P1 WINS')
+                            nameDisplay1.textContent = `WINNER - ${game.p1}`
+                            nameDisplay2.textContent = `XXX`
+                        } else if (displayController.gameOver == 'yes' && game.gameTie == 'yes') {
+                            console.log('TIE')
+                            nameDisplay1.textContent = `TIE`
+                            nameDisplay2.textContent = ``
+                        }
                     } else {
                         // cell.innerText = 'o'
                         cell.style.backgroundColor = 'skyblue'
                         plTurn = player1;
                         console.log(plTurn)
+                        nameDisplay1.textContent = `>> ${game.p1} <<`
+                        nameDisplay2.textContent = `${game.p2}`
+                        if (displayController.gameOver == 'yes' && game.gameTie == 'no') {
+                            console.log('P2 WINS')
+                            nameDisplay1.textContent = `OOO`
+                            nameDisplay2.textContent = `WINNER - ${game.p2}`
+                        }
                     };
                 };
             };
         }; 
+    });
+
+    const massiveContainer = document.querySelector('#wrapper');
+    const rightDiv = document.querySelector('div.right');
+
+    const nameContainer = document.createElement('div');
+    nameContainer.className = 'names';
+    rightDiv.append(nameContainer);
+
+    const nameDisplay1 = document.createElement('p');
+    const nameDisplay2 = document.createElement('p');
+    nameDisplay1.textContent = `>> ${game.p1} <<`;
+    nameDisplay2.textContent = `${game.p2}`;
+    nameContainer.append(nameDisplay1);
+    nameContainer.append(nameDisplay2);
+
+    const buttonContainer = document.createElement('div');
+    buttonContainer.className = 'buttons';
+    massiveContainer.append(buttonContainer);
+
+    let changeNames = document.createElement('button')
+    changeNames.textContent = 'Change names';
+    buttonContainer.append(changeNames);
+    changeNames.addEventListener('click', () => {
+        game.p1 = prompt('Player 1 name', 'Player 1')
+        game.p2 = prompt('Player 2 name', 'Player 2')
+        nameDisplay1.textContent = `>> ${game.p1} <<`
+        nameDisplay2.textContent = `${game.p2}`
+        nameContainer.append(nameDisplay1)
+        nameContainer.append(nameDisplay2)
     });
 
     return {
