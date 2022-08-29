@@ -209,7 +209,7 @@ const displayController = (() => {
                         plTurn = player2;
                         console.log(plTurn)
                         nameDisplay1.textContent = `${game.p1}`
-                        nameDisplay2.textContent = `>> ${game.p2} <<`
+                        nameDisplay2.textContent = `${game.p2} <<`
                         if (displayController.gameOver == 'yes' && game.gameTie == 'no') {
                             console.log('P1 WINS')
                             nameDisplay1.textContent = `WINNER - ${game.p1}`
@@ -224,12 +224,16 @@ const displayController = (() => {
                         cell.style.backgroundColor = 'skyblue'
                         plTurn = player1;
                         console.log(plTurn)
-                        nameDisplay1.textContent = `>> ${game.p1} <<`
+                        nameDisplay1.textContent = `${game.p1} <<`
                         nameDisplay2.textContent = `${game.p2}`
                         if (displayController.gameOver == 'yes' && game.gameTie == 'no') {
                             console.log('P2 WINS')
                             nameDisplay1.textContent = `OOO`
                             nameDisplay2.textContent = `WINNER - ${game.p2}`
+                        } else if (displayController.gameOver == 'yes' && game.gameTie == 'yes') {
+                            console.log('TIE')
+                            nameDisplay1.textContent = `TIE`
+                            nameDisplay2.textContent = ``
                         }
                     };
                 };
@@ -239,6 +243,7 @@ const displayController = (() => {
 
     const massiveContainer = document.querySelector('#wrapper');
     const rightDiv = document.querySelector('div.right');
+    const leftDiv = document.querySelector('div.left');
 
     const nameContainer = document.createElement('div');
     nameContainer.className = 'names';
@@ -246,14 +251,18 @@ const displayController = (() => {
 
     const nameDisplay1 = document.createElement('p');
     const nameDisplay2 = document.createElement('p');
-    nameDisplay1.textContent = `>> ${game.p1} <<`;
+    nameDisplay1.textContent = `${game.p1} <<`;
     nameDisplay2.textContent = `${game.p2}`;
     nameContainer.append(nameDisplay1);
     nameContainer.append(nameDisplay2);
 
     const buttonContainer = document.createElement('div');
     buttonContainer.className = 'buttons';
-    massiveContainer.append(buttonContainer);
+    leftDiv.append(buttonContainer);
+
+    let newGame = document.createElement('button') //<<<--------------
+    newGame.textContent = 'NEW GAME';
+    buttonContainer.append(newGame);
 
     let changeNames = document.createElement('button')
     changeNames.textContent = 'Change names';
@@ -261,10 +270,34 @@ const displayController = (() => {
     changeNames.addEventListener('click', () => {
         game.p1 = prompt('Player 1 name', 'Player 1')
         game.p2 = prompt('Player 2 name', 'Player 2')
-        nameDisplay1.textContent = `>> ${game.p1} <<`
+        nameDisplay1.textContent = `${game.p1} <<`
         nameDisplay2.textContent = `${game.p2}`
         nameContainer.append(nameDisplay1)
         nameContainer.append(nameDisplay2)
+    });
+
+    newGame.addEventListener('click', () => {
+        // if (displayController.gameOver == 'yes') {//-------------------------
+
+            cells.forEach((cell) => {
+                game.gameboard[cell.id - 1] = ''
+                cell.innerText = game.gameboard[cell.id - 1];
+                cell.style.backgroundColor = 'white';
+                cell.className = 'cell';
+                console.log(cell.id)
+            })
+            displayController.gameOver = 'no';
+            plTurn = player1;
+            game.gameTie = 'no'
+            console.log(game.gameboard)
+            console.log(plTurn)
+
+            nameDisplay1.textContent = `${game.p1} <<`
+            nameDisplay2.textContent = `${game.p2}`
+
+        // } else {
+        //     console.log('game is not over yet')
+        // }
     });
 
     return {
