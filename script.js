@@ -177,8 +177,8 @@ const displayController = (() => {
     
     const cells = document.querySelectorAll('div.cell');
 
-    const player1 = 'x';
-    const player2 = 'o';
+    const player1 = 'X';
+    const player2 = 'O';
     let plTurn = player1;
     let gameOver = 'no';
     // cells.forEach((cell) => {
